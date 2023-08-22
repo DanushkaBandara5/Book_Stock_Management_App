@@ -23,20 +23,20 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public Book save(Book entity) throws Exception {
-        jdbcTemplate.update("insert into book (isbn,description) values (?,?)",entity.getIsbn(),entity.getTitle());
+        jdbcTemplate.update("insert into book (isbn,title) values (?,?)",entity.getIsbn(),entity.getTitle());
         return entity;
     }
 
     @Override
     public void update(Book entity) throws Exception {
-        jdbcTemplate.update("update book set description=? where isbn=?",entity.getIsbn(),entity.getTitle());
+        jdbcTemplate.update("update book set title=? where isbn=?",entity.getTitle(),entity.getIsbn());
 
 
     }
 
     @Override
     public void deleteById(String pk) throws Exception {
-        jdbcTemplate.update("delete from book where id=?",pk);
+        jdbcTemplate.update("delete from book where isbn=?",pk);
 
     }
 

@@ -44,8 +44,8 @@ public class BookBOImpl implements BookBO {
 
     @Override
     public BookDTO updateBook(BookDTO bookDTO) throws Exception {
-        if(bookDAO.existsById(bookDTO.getIsbn())){
-            throw new DuplicateException("ISBN "+bookDTO.getIsbn()+" Already Exists");
+        if(!bookDAO.existsById(bookDTO.getIsbn())){
+            throw new DuplicateException("ISBN "+bookDTO.getIsbn()+" doesn't Exists");
         }
         bookDAO.update(transformer.toEntity(bookDTO));
         return bookDTO;
