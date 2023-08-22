@@ -4,13 +4,14 @@ import lk.ijse.dep10.app.dao.custom.BookDAO;
 import lk.ijse.dep10.app.entity.Book;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 import static lk.ijse.dep10.app.dao.mapper.Mapper.BOOK_ROW_MAPPER;
-
+@Repository
 public class BookDAOImpl implements BookDAO {
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
     public BookDAOImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate=jdbcTemplate;
 
@@ -22,7 +23,8 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public Book save(Book entity) throws Exception {
-        return jdbcTemplate.update("insert into book (isbn,description) values (?,?)",entity.getIsbn(),entity.getTitle())
+        jdbcTemplate.update("insert into book (isbn,description) values (?,?)",entity.getIsbn(),entity.getTitle());
+        return entity;
     }
 
     @Override
