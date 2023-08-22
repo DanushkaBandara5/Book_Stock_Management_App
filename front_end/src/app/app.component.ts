@@ -16,23 +16,30 @@ export class AppComponent {
     subscribe(bookList=>this.bookList=bookList);
   }
 
-  saveBook(isbn: HTMLInputElement, title: HTMLInputElement, btn: HTMLButtonElement) {
+  saveBook(isbn: HTMLInputElement, title: HTMLInputElement, quantity: HTMLInputElement, btn: HTMLButtonElement) {
     if(btn.innerText==="Save"){
       let isbn1 =isbn.value;
       let title1=title.value;
+      let qty1 :Number=+quantity.value;
       if(!isbn.value){
         isbn.select();
+        return;
       }
       if(!title.value){
         title.select();
+        return;
+      }
+      if(!quantity.value){
+        quantity.select();
+        return;
       }
       this.http.post('http://localhost:8080/api/v1/books',
-        new Book(isbn.value,title.value)).subscribe((data)=>{
-        this.bookList.push(new Book(isbn1,title1));
+        new Book(isbn.value,title.value,+quantity.value)).subscribe((data)=>{
+        this.bookList.push(new Book(isbn1,title1,qty1));
       });
     }
     else if(btn.innerText==="Edit"){
-      this.http.patch<Book>('http://localhost:8080/api/v1/books',new Book(isbn.value,title.value)).
+      this.http.patch<Book>('http://localhost:8080/api/v1/books',new Book(isbn.value,title.value,+quantity.value)).
       subscribe(book=>{
         this.bookList.splice(+this.indexs,1,book);
       })
@@ -42,15 +49,17 @@ export class AppComponent {
 
     isbn.value="";
     title.value="";
+    quantity.value=""
     isbn.select();
 
 
 
   }
 
-  clearText(isbn: HTMLInputElement, title: HTMLInputElement, btn: HTMLButtonElement) {
+  clearText(isbn: HTMLInputElement, title: HTMLInputElement, quantity: HTMLInputElement, btn: HTMLButtonElement) {
     isbn.value="";
     title.value="";
+    quantity.value="";
     isbn.select();
     isbn.removeAttribute("disabled");
     btn.innerText="Save"
@@ -64,9 +73,10 @@ export class AppComponent {
     });
   }
 
-  editBook(book: Book, isbn: HTMLInputElement, title: HTMLInputElement, btn: HTMLButtonElement) {
+  editBook(book: Book, isbn: HTMLInputElement, title: HTMLInputElement, quantity: HTMLInputElement, btn: HTMLButtonElement) {
     isbn.value=book.isbn;
     title.value=book.title;
+    quantity.value=book.qty.toString();
     this.indexs=this.bookList.indexOf(book);
     btn.innerText="Edit";
     isbn.setAttribute("disabled","true")
