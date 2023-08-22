@@ -11,7 +11,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Book implements Serializable {
+public class Book implements SuperEntity {
     private String isbn;
     private String Title;
 
