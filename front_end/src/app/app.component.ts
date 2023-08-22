@@ -37,6 +37,7 @@ export class AppComponent {
         this.bookList.splice(+this.indexs,1,book);
       })
       btn.innerText="Save";
+      isbn.removeAttribute("disabled")
     }
 
     isbn.value="";
@@ -47,10 +48,12 @@ export class AppComponent {
 
   }
 
-  clearText(isbn: HTMLInputElement, title: HTMLInputElement) {
+  clearText(isbn: HTMLInputElement, title: HTMLInputElement, btn: HTMLButtonElement) {
     isbn.value="";
     title.value="";
     isbn.select();
+    isbn.removeAttribute("disabled");
+    btn.innerText="Save"
 
   }
 
@@ -66,7 +69,15 @@ export class AppComponent {
     title.value=book.title;
     this.indexs=this.bookList.indexOf(book);
     btn.innerText="Edit";
+    isbn.setAttribute("disabled","true")
 
 
+  }
+
+
+  searchBook(search: HTMLInputElement) {
+    // alert("ok")
+    this.http.get<Array<Book>>(`http://localhost:8080/api/v1/books?q=${search.value}`).
+    subscribe(bookList=>this.bookList=bookList);
   }
 }
