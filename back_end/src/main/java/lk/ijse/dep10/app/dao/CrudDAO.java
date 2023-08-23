@@ -20,4 +20,6 @@ public interface CrudDAO <T extends SuperEntity,ID extends Serializable> {
     List<T> findAll() throws Exception;
 
     boolean existsById(ID pk) throws Exception;
+
+    List<T> search(String query) throws Exception;
 }

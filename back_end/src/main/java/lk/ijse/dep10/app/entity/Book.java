@@ -14,6 +14,7 @@ import java.io.Serializable;
 public class Book implements SuperEntity {
     private String isbn;
     private String Title;
+    private int qty;
 
 
 }

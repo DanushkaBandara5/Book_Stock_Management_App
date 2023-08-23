@@ -7,6 +7,7 @@ import lk.ijse.dep10.app.business.util.Transformer;
 import lk.ijse.dep10.app.dao.custom.BookDAO;
 import lk.ijse.dep10.app.dto.BookDTO;
 import lk.ijse.dep10.app.entity.Book;
+import org.modelmapper.internal.bytebuddy.build.Plugin;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,5 +66,14 @@ public class BookBOImpl implements BookBO {
     public BookDTO findBookByIsbn(String isbn) throws Exception {
         return bookDAO.findById(isbn).map(transformer::fromEntity)
                 .orElseThrow(()-> new RecordNotFoundException("ISBN "+isbn+" not Exists"));
+    }
+
+    @Override
+    public List<BookDTO> search(String query) throws Exception {
+        List<BookDTO> list =new ArrayList<>();
+        for (Book book : bookDAO.search(query)) {
+            list.add(transformer.fromEntity(book));
+        }
+        return list;
     }
 }

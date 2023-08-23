@@ -7,7 +7,8 @@ public class Mapper {
     public static RowMapper<Book> BOOK_ROW_MAPPER=(rs,no)->{
         String isbn = rs.getObject("isbn", String.class);
         String title = rs.getObject("title", String.class);
-        return new Book(isbn,title);
+        int qty = rs.getObject("qty", Integer.class);
+        return new Book(isbn,title,qty);
 
     };
 }

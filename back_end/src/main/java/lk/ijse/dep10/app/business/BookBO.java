@@ -12,5 +12,8 @@ public interface BookBO {
     BookDTO updateBook(BookDTO bookDTO)throws Exception;
     void deleteBook(String isbn) throws Exception;
     BookDTO findBookByIsbn(String isbn) throws Exception;
+    List<BookDTO> search(String query) throws Exception;
+
+
 
 }

@@ -20,12 +20,12 @@ public class BookHttpController {
     public BookHttpController(BookBO bookBO) {
         this.bookBO=bookBO;
     }
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping
-    public List<BookDTO> getAll() throws Exception {
-        return bookBO.getAllBooks();
-
-    }
+//    @ResponseStatus(HttpStatus.OK)
+//    @GetMapping
+//    public List<BookDTO> getAll() throws Exception {
+//        return bookBO.getAllBooks();
+//
+//    }
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{isbn}")
     public BookDTO getBookByIsbn(@PathVariable String isbn) throws Exception {
@@ -44,6 +44,12 @@ public class BookHttpController {
     @PatchMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateBook(@RequestBody @Valid BookDTO bookDTO) throws Exception {
         return new ResponseEntity<>(bookBO.updateBook(bookDTO),HttpStatus.CREATED) ;
+    }
+    @GetMapping
+    public List<BookDTO> searchBook(@RequestParam(name = "q",required = false) String query) throws Exception {
+        if(query==null) query="";
+            query="%"+query+"%";
+        return bookBO.search(query);
     }
 
 

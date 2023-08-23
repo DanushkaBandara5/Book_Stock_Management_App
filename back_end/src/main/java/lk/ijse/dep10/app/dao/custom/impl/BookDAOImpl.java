@@ -23,13 +23,13 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public Book save(Book entity) throws Exception {
-        jdbcTemplate.update("insert into book (isbn,title) values (?,?)",entity.getIsbn(),entity.getTitle());
+        jdbcTemplate.update("insert into book (isbn,title,qty) values (?,?,?)",entity.getIsbn(),entity.getTitle(),entity.getQty());
         return entity;
     }
 
     @Override
     public void update(Book entity) throws Exception {
-        jdbcTemplate.update("update book set title=? where isbn=?",entity.getTitle(),entity.getIsbn());
+        jdbcTemplate.update("update book set title=?, qty=? where isbn=?",entity.getTitle(),entity.getQty(),entity.getIsbn());
 
 
     }
@@ -57,5 +57,10 @@ public class BookDAOImpl implements BookDAO {
     @Override
     public boolean existsById(String pk) throws Exception {
         return findById(pk).isPresent();
+    }
+
+    @Override
+    public List<Book> search(String query) throws Exception {
+        return jdbcTemplate.query("select * from book where isbn like ? or title like ? or qty like ?",BOOK_ROW_MAPPER,query,query,query);
     }
 }

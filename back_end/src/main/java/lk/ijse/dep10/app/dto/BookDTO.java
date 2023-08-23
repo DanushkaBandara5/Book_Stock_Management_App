@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 @Data
 @AllArgsConstructor
@@ -17,4 +18,6 @@ public class BookDTO implements Serializable {
     private String isbn;
     @NotBlank(message ="Title cannot be Empty")
     private String title;
+    @NotNull(message = "Quantity cannot be zero")
+    private int qty;
 }
